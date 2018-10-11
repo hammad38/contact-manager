@@ -17,13 +17,13 @@ class Contact extends Component {
     })
   }
 
-  deleteContact = (id, dispatch) => {
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-      .then(response => {
-        dispatch({type: 'DELETE_CONTACT', payload: id})
-      });
-    // dispatch({type: 'DELETE_CONTACT', payload: id})
+  deleteContact = async(id, dispatch) => {
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+      dispatch({type: 'DELETE_CONTACT', payload: id});
+    } catch (e) {
+      dispatch({type: 'DELETE_CONTACT', payload: id});
+    }
   }
 
   render() {
