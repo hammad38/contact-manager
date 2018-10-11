@@ -9,7 +9,8 @@ class AddContact extends Component {
     this.state = {
       name: '',
       email: '',
-      phone: ''
+      phone: '',
+      errors: {}
     }
   }
 
@@ -23,6 +24,21 @@ class AddContact extends Component {
     e.preventDefault();
 
     const {name, email, phone} = this.state;
+
+    /*form validation*/
+    if(name === "") {
+      this.setState({errors: {name: 'Name field is required.'}});
+      return;
+    }
+    if(email === "") {
+      this.setState({errors: {email: 'Email field is required.'}});
+      return;
+    }
+    if(phone === "") {
+      this.setState({errors: {phone: 'Phone field is required.'}});
+      return;
+    }
+
     const newContact = {
       id: uuid(),
       name,
@@ -35,12 +51,13 @@ class AddContact extends Component {
     this.setState({
       name: '',
       email: '',
-      phone: ''
+      phone: '',
+      errors: {}
     })
   }
 
   render() {
-    const {name, email, phone} = this.state;
+    const {name, email, phone, errors} = this.state;
 
     return(
       <Consumer>
@@ -57,6 +74,7 @@ class AddContact extends Component {
                     placeholder="Enter Name..."
                     value={name}
                     onChange={this.onChange}
+                    error={errors.name}
                   />
 
                   <TextInputGroup
@@ -66,6 +84,7 @@ class AddContact extends Component {
                     placeholder="Enter Email..."
                     value={email}
                     onChange={this.onChange}
+                    error={errors.email}
                   />
 
                   <TextInputGroup
@@ -74,6 +93,7 @@ class AddContact extends Component {
                     placeholder="Enter Phone..."
                     value={phone}
                     onChange={this.onChange}
+                    error={errors.phone}
                   />
                   <input type="submit" value="Add Contact" className="btn btn-light btn-block"/>
                 </form>
